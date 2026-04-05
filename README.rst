@@ -1,164 +1,84 @@
-LangMARL: Natural Language Multi-Agent Reinforcement Learning
-============================================================
+LangMARL
+========
 
-LangMARL is a **language-native multi-agent reinforcement learning (MARL) framework**
-that reformulates **policy representation, credit assignment, and policy optimization
-entirely in natural language**.
+**Language-space Multi-Agent Reinforcement Learning**
 
-It enables large language model (LLM)–based agents to learn cooperative behaviors under
-the **Centralized Training and Decentralized Execution (CTDE)** paradigm with improved
-interpretability, sample efficiency, and scalability.
+.. image:: https://img.shields.io/badge/License-MIT-yellow.svg
+   :target: https://opensource.org/licenses/MIT
 
-----
+.. image:: https://img.shields.io/badge/python-3.10+-blue.svg
+   :target: https://www.python.org/downloads/
 
-Core Idea
----------
+.. image:: https://readthedocs.org/projects/langmarl/badge/?version=latest
+   :target: https://langmarl.readthedocs.io/
 
-Traditional MARL relies on numeric parameters, scalar rewards, and gradient-based
-optimization. LangMARL introduces a paradigm shift by treating **natural language as a
-first-class optimization space**:
+LangMARL applies multi-agent credit assignment and policy gradient optimization
+from classical MARL into natural language space. It enables principled autonomous
+optimization of multi-agent LLM-based systems via **Centralized Training with
+Decentralized Execution (CTDE)**.
 
-- **Policies are Language**: Each agent’s policy is represented as natural language
-  rules or instructions
-- **Credits are Language**: A centralized critic assigns agent-level credit using
-  trajectory-level language analysis
-- **Optimization is Language Evolution**: Policies are updated via language critiques
-  instead of numeric gradients
+Key Features
+------------
 
-.. note::
+- **Language Policies** -- Agent policies are natural language instructions, not numeric parameters
+- **Centralized Credit Assignment** -- A centralized critic assigns per-agent credit using trajectory-level language analysis
+- **Language Policy Optimization** -- Policies evolve via language gradients instead of numeric gradients
+- **Multi-Provider LLM Support** -- 18+ predefined models across OpenAI, Google, Together, DeepSeek, and local Ollama
+- **Plugin Environment System** -- Register custom environments via ``@register_env`` decorator
+- **Resumable Training** -- Auto-detect checkpoints and resume from any iteration
+- **Token & Cost Tracking** -- Built-in per-model pricing and usage statistics
 
-   Natural language is not just a communication or explanation layer—it is the medium
-   for learning itself.
+Installation
+------------
 
-----
+.. code-block:: console
 
-Framework Overview
-------------------
+   $ pip install langmarl
 
-1. LLM Actors with Language Policies
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Set up your API key:
 
-- Each agent is instantiated as an LLM
-- The policy is encoded as natural language (rules, heuristics, preferences)
-- Input: textual local observation
-- Output: action description (mapped to environment actions)
+.. code-block:: console
 
-2. Centralized Language Critic
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   $ export OPENAI_API_KEY="your-api-key"
 
-- Used only during training
-- Has access to the full episode trajectory
-- Produces **agent-specific, causal, and interpretable language credits**
-- Explicitly explains how each agent’s behavior contributed to success or failure
+Quick Start
+-----------
 
-3. Cross-Trajectory Credit Aggregation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+One-line training from config:
 
-- A summary LLM aggregates language credits from multiple Monte Carlo rollouts
-- Replaces numeric expectation with semantic abstraction
-- Produces stable, high-level credit signals per agent
+.. code-block:: python
 
-4. Language Policy Optimizer
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   import langmarl
 
-- Converts credit signals into policy critiques
-- Updates policies via language revision (editing rules, adding constraints,
-  refining priorities)
+   langmarl.train("configs/language_task/qa_central_credit.json")
 
-----
+Programmatic usage:
 
-Algorithm: LangMARL (CTDE)
--------------------------
+.. code-block:: python
 
-1. **Decentralized Execution & Experience Collection**
+   import langmarl
 
-   - Each agent independently acts according to its own language policy
-   - Full episode trajectories are collected
+   config = langmarl.LanguageTaskConfig(
+       task_type="qa",
+       paradigm="central_credit",
+       llm=langmarl.LLMConfig.from_preset("gpt-4o-mini"),
+   )
 
-2. **Centralized Language-Based Credit Assignment**
+   env = langmarl.make_env("language", config)
+   trainer = langmarl.MonteCarloTrainer(
+       config=config,
+       env=env,
+       critic=langmarl.CentralizedCritic(config),
+       optimizer=langmarl.PolicyGradientOptimizer(config.get_optimizer_llm()),
+   )
+   trainer.train()
 
-   - A centralized critic analyzes full trajectories
-   - Generates natural language credit for each agent
+Documentation
+-------------
 
-3. **Cross-Trajectory Credit Summarization**
+Full documentation: https://langmarl.readthedocs.io/
 
-   - A summary LLM abstracts consistent behavioral patterns across rollouts
+License
+-------
 
-4. **Language-Level Policy Optimization**
-
-   - Credits are transformed into critiques
-   - Each agent’s language policy is updated accordingly
-
-At test time, **all agents execute fully decentralized**, without access to centralized
-components.
-
-----
-
-Experimental Environments
--------------------------
-
-Overcooked-AI
-~~~~~~~~~~~~~
-
-- Two-agent cooperative environment
-- Sparse team rewards
-- Requires long-horizon coordination and role differentiation
-- Hierarchical action space (semantic subgoals + low-level controls)
-
-Pistonball
-~~~~~~~~~~
-
-- Large-scale cooperative control (10–20 agents)
-- Severe partial observability
-- Shared global reward with complex local causality
-- Emphasizes scalability and credit assignment under many agents
-
-----
-
-Results Summary
----------------
-
-Baselines
-~~~~~~~~~
-
-- **Zero-shot LLM**: No learning or adaptation
-- **TextGrad**: Treats language feedback as gradient-like signals, without explicit
-  multi-agent credit modeling
-
-Key Findings
-~~~~~~~~~~~~
-
-LangMARL consistently outperforms baselines in:
-
-- Final performance
-- Sample efficiency
-- Training stability
-- Scalability with increasing number of agents
-
-Performance gains are especially large in:
-
-- Sparse-reward settings
-- Asymmetric-role tasks
-- Large-team coordination scenarios
-
-----
-
-Ablation and Analysis
---------------------
-
-- **Removing agent-wise credit assignment leads to significant performance drops**
-- LangMARL is robust across different LLM backbones
-- Rollout count affects stability but exhibits non-monotonic behavior
-- Improvements stem primarily from **language-based credit assignment**, not raw model
-  scale
-
-----
-
-Advantages of LangMARL
-----------------------
-
-- ✅ Interpretable, agent-level learning signals
-- ✅ Causal, trajectory-level credit assignment
-- ✅ No reliance on numeric gradients or model fine-tuning
-- ✅ Compatible with black-box LLMs
-- ✅ Effective for long-horizon, sparse-reward, and large-scale cooperative tasks
+MIT
