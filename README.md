@@ -5,6 +5,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![Documentation](https://readthedocs.org/projects/langmarl/badge/?version=latest)](https://langmarl.readthedocs.io/)
+[![arXiv](https://img.shields.io/badge/arXiv-2604.00722-b31b1b.svg)](https://arxiv.org/abs/2604.00722)
+[![GitHub](https://img.shields.io/badge/GitHub-DaRL--GenAI%2FLangMARL-181717.svg?logo=github)](https://github.com/DaRL-GenAI/LangMARL)
+
+[**Paper**](https://arxiv.org/abs/2604.00722) | [**Documentation**](https://langmarl.readthedocs.io/) | [**GitHub**](https://github.com/DaRL-GenAI/LangMARL)
 
 LangMARL applies multi-agent credit assignment and policy gradient optimization from classical MARL into natural language space. It enables principled autonomous optimization of multi-agent LLM-based systems via **Centralized Training with Decentralized Execution (CTDE)**.
 
@@ -34,6 +38,14 @@ pip install langmarl[pettingzoo]
 
 # All optional dependencies
 pip install langmarl[all]
+```
+
+From source:
+
+```bash
+git clone https://github.com/DaRL-GenAI/LangMARL.git
+cd LangMARL
+pip install -e ".[all]"
 ```
 
 Set up your API key:
@@ -91,6 +103,23 @@ trainer.train()
 ## Documentation
 
 Full documentation is available at [langmarl.readthedocs.io](https://langmarl.readthedocs.io/).
+
+Source code, issues, and contributions: [github.com/DaRL-GenAI/LangMARL](https://github.com/DaRL-GenAI/LangMARL).
+
+## Citation
+
+LangMARL is described in [*Language-space Multi-Agent Reinforcement Learning*](https://arxiv.org/abs/2604.00722).
+If you use it in your research, please cite:
+
+```bibtex
+@article{langmarl2026,
+  title   = {Language-space Multi-Agent Reinforcement Learning},
+  author  = {LangMARL Authors},
+  journal = {arXiv preprint arXiv:2604.00722},
+  year    = {2026},
+  url     = {https://arxiv.org/abs/2604.00722}
+}
+```
 
 ## License
 

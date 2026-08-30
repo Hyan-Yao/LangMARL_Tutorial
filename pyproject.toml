@@ -4,14 +4,14 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "langmarl"
-version = "0.2.0"
+version = "1.0.0"
 description = "Language-space Multi-Agent Reinforcement Learning"
 authors = [{name = "LangMARL Authors"}]
 license = {text = "MIT"}
 readme = "README.md"
 requires-python = ">=3.10"
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
@@ -21,6 +21,13 @@ dependencies = [
     "openai>=1.0",
     "tqdm",
 ]
+
+[project.urls]
+Homepage = "https://github.com/DaRL-GenAI/LangMARL"
+Repository = "https://github.com/DaRL-GenAI/LangMARL"
+Documentation = "https://langmarl.readthedocs.io/"
+Paper = "https://arxiv.org/abs/2604.00722"
+"Bug Tracker" = "https://github.com/DaRL-GenAI/LangMARL/issues"
 
 [project.optional-dependencies]
 pettingzoo = ["pettingzoo[butterfly]", "supersuit", "imageio"]

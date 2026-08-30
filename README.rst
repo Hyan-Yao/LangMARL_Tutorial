@@ -12,6 +12,16 @@ LangMARL
 .. image:: https://readthedocs.org/projects/langmarl/badge/?version=latest
    :target: https://langmarl.readthedocs.io/
 
+.. image:: https://img.shields.io/badge/arXiv-2604.00722-b31b1b.svg
+   :target: https://arxiv.org/abs/2604.00722
+
+.. image:: https://img.shields.io/badge/GitHub-DaRL--GenAI%2FLangMARL-181717.svg?logo=github
+   :target: https://github.com/DaRL-GenAI/LangMARL
+
+`Paper <https://arxiv.org/abs/2604.00722>`_ |
+`Documentation <https://langmarl.readthedocs.io/>`_ |
+`GitHub <https://github.com/DaRL-GenAI/LangMARL>`_
+
 LangMARL applies multi-agent credit assignment and policy gradient optimization
 from classical MARL into natural language space. It enables principled autonomous
 optimization of multi-agent LLM-based systems via **Centralized Training with
@@ -34,6 +44,14 @@ Installation
 .. code-block:: console
 
    $ pip install langmarl
+
+From source:
+
+.. code-block:: console
+
+   $ git clone https://github.com/DaRL-GenAI/LangMARL.git
+   $ cd LangMARL
+   $ pip install -e ".[all]"
 
 Set up your API key:
 
@@ -77,6 +95,24 @@ Documentation
 -------------
 
 Full documentation: https://langmarl.readthedocs.io/
+
+Source code and issues: https://github.com/DaRL-GenAI/LangMARL
+
+Citation
+--------
+
+LangMARL is described in `Language-space Multi-Agent Reinforcement Learning
+<https://arxiv.org/abs/2604.00722>`_. If you use it in your research, please cite:
+
+.. code-block:: bibtex
+
+   @article{langmarl2026,
+     title   = {Language-space Multi-Agent Reinforcement Learning},
+     author  = {LangMARL Authors},
+     journal = {arXiv preprint arXiv:2604.00722},
+     year    = {2026},
+     url     = {https://arxiv.org/abs/2604.00722}
+   }
 
 License
 -------

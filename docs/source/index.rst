@@ -1,6 +1,9 @@
 LangMARL Documentation
 ======================
 
+`Paper <https://arxiv.org/abs/2604.00722>`_ |
+`GitHub <https://github.com/DaRL-GenAI/LangMARL>`_
+
 **LangMARL** brings multi-agent credit assignment and policy gradient optimization
 from classical MARL into natural language space. It optimizes multi-agent LLM systems
 under the **Centralized Training with Decentralized Execution (CTDE)** paradigm.
@@ -78,6 +81,23 @@ Contents
    environments
    api
 
+Citation
+--------
+
+LangMARL is described in `Language-space Multi-Agent Reinforcement Learning
+<https://arxiv.org/abs/2604.00722>`_. If you use it in your research, please cite:
+
+.. code-block:: bibtex
+
+   @article{langmarl2026,
+     title   = {Language-space Multi-Agent Reinforcement Learning},
+     author  = {LangMARL Authors},
+     journal = {arXiv preprint arXiv:2604.00722},
+     year    = {2026},
+     url     = {https://arxiv.org/abs/2604.00722}
+   }
+
 .. note::
 
-   This project is under active development.
+   This project is under active development. Source code and issue tracker:
+   https://github.com/DaRL-GenAI/LangMARL

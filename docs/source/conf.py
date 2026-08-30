@@ -10,8 +10,8 @@ project = 'LangMARL'
 copyright = '2024, LangMARL Authors'
 author = 'LangMARL Authors'
 
-release = '0.2'
-version = '0.2.0'
+release = '1.0'
+version = '1.0.0'
 
 # -- General configuration
 
@@ -34,6 +34,14 @@ templates_path = ['_templates']
 # -- Options for HTML output
 
 html_theme = 'sphinx_rtd_theme'
+
+html_context = {
+    'display_github': True,
+    'github_user': 'DaRL-GenAI',
+    'github_repo': 'LangMARL',
+    'github_version': 'main',
+    'conf_py_path': '/docs/source/',
+}
 
 # -- Options for EPUB output
 epub_show_urls = 'footnote'
