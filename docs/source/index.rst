@@ -1,10 +1,9 @@
 LangMARL Documentation
 ======================
 
-**LangMARL** is a language-space multi-agent reinforcement learning library that applies
-credit assignment and policy gradient optimization from classical MARL into natural
-language space. It enables principled autonomous optimization of multi-agent LLM-based
-systems via **Centralized Training with Decentralized Execution (CTDE)**.
+**LangMARL** brings multi-agent credit assignment and policy gradient optimization
+from classical MARL into natural language space. It optimizes multi-agent LLM systems
+under the **Centralized Training with Decentralized Execution (CTDE)** paradigm.
 
 .. code-block:: python
 
@@ -12,34 +11,45 @@ systems via **Centralized Training with Decentralized Execution (CTDE)**.
 
    langmarl.train("configs/language_task/qa_central_credit.json")
 
-Core Concepts
+The Core Idea
 -------------
 
-LangMARL treats **natural language as a first-class optimization space**:
+LangMARL keeps the structure of classical MARL, but replaces every numeric object
+with a language object:
 
-* **Policies are Language** -- Each agent's policy is a natural language instruction (system prompt),
-  not a numeric parameter vector.
-* **Credits are Language** -- A centralized critic assigns agent-level credit via trajectory-level
-  language analysis, producing causal and interpretable feedback.
-* **Optimization is Language Evolution** -- Policies are updated via language gradients
-  (improvement instructions) instead of numeric gradients.
+.. list-table::
+   :header-rows: 1
+   :widths: 30 35 35
 
-Architecture
-------------
+   * - Classical MARL
+     - LangMARL
+     - Meaning
+   * - Policy (numeric weights)
+     - Natural language instruction
+     - An agent's policy *is* its system prompt
+   * - Credit / advantage
+     - Trajectory-level language analysis
+     - A centralized critic explains *what each agent did wrong*
+   * - Numeric gradient
+     - Language gradient
+     - A concrete improvement instruction, applied to the policy text
 
-LangMARL implements the CTDE paradigm with four components:
+Because the policy is text, optimization is interpretable: you can read every
+gradient and every policy revision produced during training.
 
-1. **LLM Actors** -- Each agent is an LLM whose behavior is governed by a natural language
-   policy. During execution, each agent observes only its local information and acts independently.
+How Training Works
+------------------
 
-2. **Centralized Critic** -- Used only during training. Evaluates full episode trajectories
-   and generates per-agent credit using LLM-as-judge.
+Training runs a Monte Carlo loop over four components:
 
-3. **Policy Gradient Optimizer** -- Converts credit signals into language gradients
-   (concrete improvement instructions) and applies them to agent policies.
-
-4. **Monte Carlo Trainer** -- Orchestrates the training loop: collect trajectories,
-   evaluate, generate gradients, aggregate, and update policies.
+1. **LLM Actors** -- each agent acts from its own language policy and its own local
+   observation. This is the *decentralized execution* half of CTDE.
+2. **Centralized Critic** -- training only. Sees the full episode trajectory and
+   assigns credit per agent (LLM-as-judge).
+3. **Policy Gradient Optimizer** -- turns credit into language gradients and applies
+   them to the policies.
+4. **Monte Carlo Trainer** -- collects trajectories, evaluates, aggregates gradients,
+   updates policies, checkpoints, repeats.
 
 Training Paradigms
 ------------------
@@ -51,42 +61,23 @@ Training Paradigms
    * - Paradigm
      - Description
    * - ``central_global``
-     - A shared critic evaluates overall team performance. All agents receive the same
-       shared gradient signal.
+     - The critic evaluates overall team performance; all agents receive the same
+       shared gradient.
    * - ``central_credit``
-     - A shared critic evaluates each agent's individual contribution to team success.
-       Each agent receives a targeted per-agent gradient.
-
-Supported Environments
-----------------------
-
-.. list-table::
-   :header-rows: 1
-   :widths: 25 20 55
-
-   * - Environment
-     - Agents
-     - Description
-   * - Language Tasks
-     - 2+
-     - Sequential collaboration on QA (HotPotQA), Math, Creative Writing, and Coding (HumanEval).
-   * - Overcooked-AI
-     - 2
-     - Cooperative cooking with sparse team rewards and role differentiation.
-   * - Pistonball
-     - 10--20
-     - Large-scale cooperative control with partial observability.
-
-Custom environments can be registered via the ``@langmarl.register_env`` decorator.
-
-.. note::
-
-   This project is under active development.
+     - The critic evaluates each agent's individual contribution; each agent receives
+       its own targeted gradient.
 
 Contents
 --------
 
 .. toctree::
+   :maxdepth: 2
 
-   usage
+   quickstart
+   training
+   environments
    api
+
+.. note::
+
+   This project is under active development.
